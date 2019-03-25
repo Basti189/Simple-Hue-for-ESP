@@ -14,16 +14,16 @@ const char *password = "";
 HueBridge bridge;
 
 void setup() {
-	Serial.begin(115200);
-  
+  Serial.begin(115200);
+
   WiFi.mode(WIFI_STA);
-	WiFi.begin(ssid, password);
-	while (WiFi.status() != WL_CONNECTED) {
-		delay(500);
-		Serial.println("Connecting to WiFi..");
-	}
-	WiFi.persistent(true);
-	Serial.println("Connected to the WiFi network");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+	delay(500);
+	Serial.println("Connecting to WiFi..");
+  }
+  WiFi.persistent(true);
+  Serial.println("Connected to the WiFi network");
   
   bridge.init("Bridge_Control", "ESP8266");
   // bridge.setDebugOutput(true); // For debugging
@@ -47,10 +47,10 @@ void setup() {
 	}
   
 	if(bridge.isVerified()) {
-    bridge.getAllLights(); // Optional
+		bridge.getAllLights(); // Optional
 		bridge.getAllRooms(); // Optional
   } else {
-    while(true); // Or whatever
+	 while(true); // Or whatever
   }
 }
 
