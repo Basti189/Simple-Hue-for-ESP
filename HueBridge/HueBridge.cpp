@@ -590,7 +590,7 @@ bool HueBridge::setRoomAlert(uint8_t roomID, uint8_t alert) {
 			payload += "\"lselect\"}";
 			break;
 	}
-	if (PUT("groups/" + String(roomID) + "/state", payload, content)) {
+	if (PUT("groups/" + String(roomID) + "/action", payload, content)) {
 		if (content.indexOf("success") != -1) {
 			return true;
 		}
