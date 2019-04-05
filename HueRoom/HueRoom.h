@@ -22,6 +22,9 @@ public:
 	const static bool OFF = false;
 	const static uint8_t STATE_ALL = 0;
 	const static uint8_t STATE_ANY = 1;
+	const static uint8_t ALERT_NONE = 0;
+	const static uint8_t ALERT_SELECT = 1;
+	const static uint8_t ALERT_LSELECT = 2;
 	void add(uint8_t roomID, String roomName);
 	int8_t operator [] (String roomName);
 	void clear();
