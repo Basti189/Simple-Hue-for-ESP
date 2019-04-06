@@ -93,6 +93,7 @@ class HueBridge {
 
 	bool setLightColorTemperature(uint8_t lightID, uint16_t colorTemperature);
 	uint16_t getLightColorTemperature(uint8_t lightID);
+	uint16_t getLightColorTemperature(uint8_t lightID, bool convertToKelvin);
 
 	bool setLightAlert(uint8_t lightID, uint8_t alert);
 
@@ -118,6 +119,7 @@ class HueBridge {
 
 	bool setRoomColorTemperature(uint8_t roomID, uint16_t colorTemperature);
 	uint16_t getRoomColorTemperature(uint8_t roomID);
+	uint16_t getRoomColorTemperature(uint8_t roomID, bool convertToKelvin);
 
 	bool setRoomAlert(uint8_t roomID, uint8_t alert);
 
