@@ -112,7 +112,7 @@ class HueBridge {
 	bool setLightEffect(uint8_t lightID, uint8_t effect);
 
 	// Mixed methods
-	bool setLightBrightnessAndColorTemperature(uint8_t lightID, uint8_t brightness, uint8_t colorTemperature);
+	bool setLightBrightnessAndColorTemperature(uint8_t lightID, uint8_t brightness, uint16_t colorTemperature);
 
 	// Hue Rooms
 	bool setRoomState(uint8_t roomID, bool on);
@@ -140,7 +140,7 @@ class HueBridge {
 	bool setRoomEffect(uint8_t roomID, uint8_t effect);
 
 	// Mixed methods
-	bool setRoomBrightnessAndColorTemperature(uint8_t rooID, uint8_t brightness, uint8_t colorTemperature);
+	bool setRoomBrightnessAndColorTemperature(uint8_t rooID, uint8_t brightness, uint16_t colorTemperature);
 };
 
 #endif
