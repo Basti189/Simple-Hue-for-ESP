@@ -30,7 +30,7 @@ void HueLight::clear() {
 // Convert any RGB color to a Philips Hue XY values
 // The Code is based on:
 // https://stackoverflow.com/questions/22564187/rgb-to-philips-hue-hsb
-void HueLight::getRGBtoXY(double &x, double&y, uint8_t &r, uint8_t &g, uint8_t &b) {
+void HueLight::convertRGBtoXY(double &x, double&y, uint8_t &r, uint8_t &g, uint8_t &b) {
 	 // For the hue bulb the corners of the triangle are:
     // -Red: 0.675, 0.322
     // -Green: 0.4091, 0.518
