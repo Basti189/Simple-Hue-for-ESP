@@ -442,12 +442,10 @@ uint16_t HueBridge::getLightHue(uint8_t lightID) {
 }
 
 // Turns light on and set XY color
-bool HueBridge::setLightColor(uint8_t lightID, uint8_t r, uint8_t g, uint8_t b) {
-	double x, y;
-	light.getRGBtoXY(x, y, r, g, b);
+bool HueBridge::setLightColor(uint8_t lightID, double x, double y) {
 	String content;
 	String payload = "{\"on\":true,";
-	payload += "\"xy\":[" + String(x) + "," + String(y) + "]}";
+	payload += "\"xy\":[" + String(x, 4) + "," + String(y, 4) + "]}";
 	println("Payload => " + payload);
 	if (PUT("lights/" + String(lightID) + "/state", payload, content)) {
 		if (content.indexOf("success") != -1) {
@@ -455,6 +453,13 @@ bool HueBridge::setLightColor(uint8_t lightID, uint8_t r, uint8_t g, uint8_t b) 
 		}
 	}
 	return false;
+}
+
+// Turns light on and set XY color from rgb
+bool HueBridge::setLightColor(uint8_t lightID, uint8_t r, uint8_t g, uint8_t b) {
+	double x, y;
+	light.convertRGBtoXY(x, y, r, g, b);
+	return setLightColor(lightID, x, y);
 }
 
 // Turns light on and set effect
@@ -666,12 +671,10 @@ uint16_t HueBridge::getRoomHue(uint8_t roomID) {
 }
 
 // Turns room on and set XY color
-bool HueBridge::setRoomColor(uint8_t roomID, uint8_t r, uint8_t g, uint8_t b) {
-	double x, y;
-	light.getRGBtoXY(x, y, r, g, b);
+bool HueBridge::setRoomColor(uint8_t roomID, double x, double y) {
 	String content;
 	String payload = "{\"on\":true,";
-	payload += "\"xy\":[" + String(x) + "," + String(y) + "]}";
+	payload += "\"xy\":[" + String(x, 4) + "," + String(y, 4) + "]}";
 	println("Payload => " + payload);
 	if (PUT("lights/" + String(roomID) + "/state", payload, content)) {
 		if (content.indexOf("success") != -1) {
@@ -679,6 +682,13 @@ bool HueBridge::setRoomColor(uint8_t roomID, uint8_t r, uint8_t g, uint8_t b) {
 		}
 	}
 	return false;
+}
+
+// Turns room on and set XY color from rgb
+bool HueBridge::setRoomColor(uint8_t roomID, uint8_t r, uint8_t g, uint8_t b) {
+	double x, y;
+	light.convertRGBtoXY(x, y, r, g, b);
+	return setRoomColor(roomID, x, y);
 }
 
 // Turns room on and set effect
