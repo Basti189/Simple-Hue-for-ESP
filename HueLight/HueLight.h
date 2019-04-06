@@ -38,7 +38,7 @@ public:
 	int8_t operator [] (String lightName);
 	void clear();
 
-	void getRGBtoXY(double &x, double&y, uint8_t &r, uint8_t &g, uint8_t &b);
+	void convertRGBtoXY(double &x, double&y, uint8_t &r, uint8_t &g, uint8_t &b);
 };
 
 #endif
