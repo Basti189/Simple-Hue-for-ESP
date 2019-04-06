@@ -309,15 +309,15 @@ uint8_t HueBridge::getLightBrightness(uint8_t lightID) {
 	return 0;
 }
 
-// Turns light on and set colortemperature (Kelvin)
+// Turns light on and set colortemperature (kelvin or mired)
 bool HueBridge::setLightColorTemperature(uint8_t lightID, uint16_t colorTemperature) {
-	if (colorTemperature > 6500) {
-		colorTemperature = 6500;
-	} else if (colorTemperature < 2000) {
-		colorTemperature = 2000;
+	if (colorTemperature <= 6500 && colorTemperature >= 2000) { 		// valid kelvin
+		colorTemperature = 1000000 / colorTemperature; 					// convert kelvin to mired
+	} else if (colorTemperature <= 500 && colorTemperature >= 153) { 	// valid mired
+		// nothing to do
+	} else {															// invalid
+		return false;
 	}
-
-	colorTemperature = 1000000 / colorTemperature;
 
 	String content;
 	String payload = "{\"on\":true,";
@@ -331,18 +331,27 @@ bool HueBridge::setLightColorTemperature(uint8_t lightID, uint16_t colorTemperat
 	return false;
 }
 
-// Returns colortemperature in kelvin
+// Returns colortemperature in mired by default
 uint16_t HueBridge::getLightColorTemperature(uint8_t lightID) {
+	return getLightColorTemperature(lightID, false);
+}
+
+// Returns colortemperature in mired by default or convert to kelvin
+uint16_t HueBridge::getLightColorTemperature(uint8_t lightID, bool convertToKelvin) {
 	String content;
 	if (GET("lights/" + String(lightID), content)) {
 		String result = getValueFromObject("ct", content);
-		uint16_t colorTemperature = 1000000 / result.toInt();
-		if (colorTemperature < 2000) {
-			colorTemperature = 2000;
-		} else if (colorTemperature > 6500) {
-			colorTemperature = 6500;
+		if (convertToKelvin) {
+			uint16_t colorTemperature = 1000000 / result.toInt();
+			if (colorTemperature < 2000) {
+				colorTemperature = 2000;
+			} else if (colorTemperature > 6500) {
+				colorTemperature = 6500;
+			}
+			return colorTemperature;
+		} else { // default
+			return result.toInt();
 		}
-		return colorTemperature;
 	}
 	return 0;
 }
@@ -537,15 +546,15 @@ uint8_t HueBridge::getRoomBrightness(uint8_t roomID) {
 	return 0;
 }
 
-// Turns room on and set colortemperature (Kelvin)
+// Turns room on and set colortemperature (kelvin or mired)
 bool HueBridge::setRoomColorTemperature(uint8_t roomID, uint16_t colorTemperature) {
-	if (colorTemperature > 6500) {
-		colorTemperature = 6500;
-	} else if (colorTemperature < 2000) {
-		colorTemperature = 2000;
+	if (colorTemperature <= 6500 && colorTemperature >= 2000) { 		// valid kelvin
+		colorTemperature = 1000000 / colorTemperature; 					// convert kelvin to mired
+	} else if (colorTemperature <= 500 && colorTemperature >= 153) { 	// valid mired
+		// nothing to do
+	} else {															// invalid
+		return false;
 	}
-
-	colorTemperature = 1000000 / colorTemperature;
 
 	String content;
 	String payload = "{\"on\":true,";
@@ -559,18 +568,27 @@ bool HueBridge::setRoomColorTemperature(uint8_t roomID, uint16_t colorTemperatur
 	return false;
 }
 
-// Returns colortemperature in kelvin
+// Returns colortemperature in mired by default
 uint16_t HueBridge::getRoomColorTemperature(uint8_t roomID) {
+	return getRoomColorTemperature(roomID, false);
+}
+
+// Returns colortemperature in mired by default or convert to kelvin
+uint16_t HueBridge::getRoomColorTemperature(uint8_t roomID, bool convertToKelvin) {
 	String content;
 	if (GET("groups/" + String(roomID), content)) {
 		String result = getValueFromObject("ct", content);
-		uint16_t colorTemperature = 1000000 / result.toInt();
-		if (colorTemperature < 2000) {
-			colorTemperature = 2000;
-		} else if (colorTemperature > 6500) {
-			colorTemperature = 6500;
+		if (convertToKelvin) {
+			uint16_t colorTemperature = 1000000 / result.toInt();
+			if (colorTemperature < 2000) {
+				colorTemperature = 2000;
+			} else if (colorTemperature > 6500) {
+				colorTemperature = 6500;
+			}
+			return colorTemperature;
+		} else { // default
+			return result.toInt();
 		}
-		return colorTemperature;
 	}
 	return 0;
 }
@@ -580,13 +598,13 @@ bool HueBridge::setRoomAlert(uint8_t roomID, uint8_t alert) {
 	String content;
 	String payload = "{\"alert\":";
 	switch(alert) {
-		case HueLight::ALERT_NONE:
+		case HueRoom::ALERT_NONE:
 			payload += "\"none\"}";
 			break;
-		case HueLight::ALERT_SELECT:
+		case HueRoom::ALERT_SELECT:
 			payload += "\"select\"}";
 			break;
-		case HueLight::ALERT_LSELECT:
+		case HueRoom::ALERT_LSELECT:
 			payload += "\"lselect\"}";
 			break;
 	}
