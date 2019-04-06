@@ -106,6 +106,7 @@ class HueBridge {
 	bool setLightHue(uint8_t lightID, uint16_t hue);
 	uint16_t getLightHue(uint8_t lightID);
 
+	bool setLightColor(uint8_t lightID, double x, double y);
 	bool setLightColor(uint8_t lightID, uint8_t r, uint8_t g, uint8_t b);
 
 	bool setLightEffect(uint8_t lightID, uint8_t effect);
@@ -130,6 +131,7 @@ class HueBridge {
 	bool setRoomHue(uint8_t roomID, uint16_t hue);
 	uint16_t getRoomHue(uint8_t roomID);
 
+	bool setRoomColor(uint8_t roomID, double x, double y);
 	bool setRoomColor(uint8_t roomID, uint8_t r, uint8_t g, uint8_t b);
 
 	bool setRoomEffect(uint8_t roomID, uint8_t effect);
