@@ -483,6 +483,30 @@ bool HueBridge::setLightEffect(uint8_t lightID, uint8_t effect) {
 	return false;
 }
 
+// Mixed methods
+bool HueBridge::setLightBrightnessAndColorTemperature(uint8_t lightID, uint8_t brightness, uint8_t colorTemperature) {
+	if (colorTemperature <= 6500 && colorTemperature >= 2000) { 		// valid kelvin
+		colorTemperature = 1000000 / colorTemperature; 					// convert kelvin to mired
+	} else if (colorTemperature <= 500 && colorTemperature >= 153) { 	// valid mired
+		// nothing to do
+	} else {															// invalid
+		return false;
+	}
+
+	String content;
+	String payload = "{\"on\":";
+	payload += "true,";
+	payload += "\"bri\":" + String(brightness) + ",";
+	payload += "\"ct\":" + String(colorTemperature) + "}";
+	println("Payload => " + payload);
+	if (PUT("lights/" + String(lightID) + "/state", payload, content)) {
+		if (content.indexOf("success") != -1) {
+			return true;
+		}
+	}
+	return false;
+}
+
 // ****************************** [ HueRoom Control ] ****************************** //
 
 // Turns Lights in room <roomID> on or off
@@ -704,6 +728,30 @@ bool HueBridge::setRoomEffect(uint8_t roomID, uint8_t effect) {
 			payload += "\"colorloop\"}";
 			break;
 	}
+	if (PUT("groups/" + String(roomID) + "/action", payload, content)) {
+		if (content.indexOf("success") != -1) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// Mixed methods
+bool HueBridge::setRoomBrightnessAndColorTemperature(uint8_t roomID, uint8_t brightness, uint8_t colorTemperature) {
+	if (colorTemperature <= 6500 && colorTemperature >= 2000) { 		// valid kelvin
+		colorTemperature = 1000000 / colorTemperature; 					// convert kelvin to mired
+	} else if (colorTemperature <= 500 && colorTemperature >= 153) { 	// valid mired
+		// nothing to do
+	} else {															// invalid
+		return false;
+	}
+
+	String content;
+	String payload = "{\"on\":";
+	payload += "true,";
+	payload += "\"bri\":" + String(brightness) + ",";
+	payload += "\"ct\":" + String(colorTemperature) + "}";
+	println("Payload => " + payload);
 	if (PUT("groups/" + String(roomID) + "/action", payload, content)) {
 		if (content.indexOf("success") != -1) {
 			return true;
