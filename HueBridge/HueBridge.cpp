@@ -484,7 +484,7 @@ bool HueBridge::setLightEffect(uint8_t lightID, uint8_t effect) {
 }
 
 // Mixed methods
-bool HueBridge::setLightBrightnessAndColorTemperature(uint8_t lightID, uint8_t brightness, uint8_t colorTemperature) {
+bool HueBridge::setLightBrightnessAndColorTemperature(uint8_t lightID, uint8_t brightness, uint16_t colorTemperature) {
 	if (colorTemperature <= 6500 && colorTemperature >= 2000) { 		// valid kelvin
 		colorTemperature = 1000000 / colorTemperature; 					// convert kelvin to mired
 	} else if (colorTemperature <= 500 && colorTemperature >= 153) { 	// valid mired
@@ -737,7 +737,7 @@ bool HueBridge::setRoomEffect(uint8_t roomID, uint8_t effect) {
 }
 
 // Mixed methods
-bool HueBridge::setRoomBrightnessAndColorTemperature(uint8_t roomID, uint8_t brightness, uint8_t colorTemperature) {
+bool HueBridge::setRoomBrightnessAndColorTemperature(uint8_t roomID, uint8_t brightness, uint16_t colorTemperature) {
 	if (colorTemperature <= 6500 && colorTemperature >= 2000) { 		// valid kelvin
 		colorTemperature = 1000000 / colorTemperature; 					// convert kelvin to mired
 	} else if (colorTemperature <= 500 && colorTemperature >= 153) { 	// valid mired
