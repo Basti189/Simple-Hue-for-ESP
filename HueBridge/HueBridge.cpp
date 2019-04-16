@@ -760,6 +760,41 @@ bool HueBridge::setRoomBrightnessAndColorTemperature(uint8_t roomID, uint8_t bri
 	return false;
 }
 
+// ****************************** [ HueScene Control ] ****************************** //
+
+// Activate Scene with SceneID
+// Get SceneID from http://<IP>/debug/clip.html
+// GET /api/<username>/scenes
+bool HueBridge::setScene(String sceneID) {
+	String content;
+	String payload = "{\"scene\":\"" + sceneID + "\"}";
+	if (PUT("groups/" + String(0) + "/action", payload, content)) {
+		if (content.indexOf("success") != -1) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// ****************************** [ HueHome Control ] ****************************** //
+
+// Set all connected HueLights on or off
+bool HueBridge::setHomeState(bool on) {
+	String content;
+	String payload = "{\"on\":";
+	if (on) {
+		payload += "true}";
+	} else {
+		payload += "false}";
+	}
+	if (PUT("groups/" + String(0) + "/action", payload, content)) {
+		if (content.indexOf("success") != -1) {
+			return true;
+		}
+	}
+	return false;
+}
+
 // ****************************** [ DIY JSON Helper ] ****************************** //
 
 String HueBridge::getValueFromObject(String name, String content) {
