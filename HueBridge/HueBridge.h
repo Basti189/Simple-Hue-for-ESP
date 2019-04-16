@@ -141,6 +141,12 @@ class HueBridge {
 
 	// Mixed methods
 	bool setRoomBrightnessAndColorTemperature(uint8_t rooID, uint8_t brightness, uint16_t colorTemperature);
+
+	// Hue Scene
+	bool setScene(String sceneID);
+
+	// Hue Home
+	bool setHomeState(bool on);
 };
 
 #endif
